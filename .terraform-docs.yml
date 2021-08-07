@@ -3,14 +3,14 @@ version: '>= 0.14.0'
 formatter: markdown table
 
 content: |-
-  [![Tests](https://github.com/netascode/terraform-aci-scaffolding/actions/workflows/test.yml/badge.svg)](https://github.com/netascode/terraform-aci-scaffolding/actions/workflows/test.yml)
+  [![Tests](https://github.com/netascode/terraform-aci-fabric-leaf-switch-profile/actions/workflows/test.yml/badge.svg)](https://github.com/netascode/terraform-aci-fabric-leaf-switch-profile/actions/workflows/test.yml)
 
-  # Terraform ACI Scaffolding Module
+  # Terraform ACI Fabric Leaf Switch Profile Module
 
-  Description
+  Manages ACI Fabric Leaf Switch Profile
 
   Location in GUI:
-  `Tenants` » `XXX`
+  `Fabric` » `Fabric Policies` » `Switches` » `Leaf Switches` » `Profiles`
 
   ## Examples
 
