@@ -34,11 +34,11 @@ resource "aci_rest" "fabricLeafS" {
 }
 
 resource "aci_rest" "fabricRsLeNodePGrp" {
-  for_each   = { for selector in var.selectors : selector.name => selector if selector.policy != null }
+  for_each   = { for selector in var.selectors : selector.name => selector if selector.policy_group != null }
   dn         = "${aci_rest.fabricLeafS[each.value.name].id}/rsleNodePGrp"
   class_name = "fabricRsLeNodePGrp"
   content = {
-    tDn = "uni/fabric/funcprof/lenodepgrp-${each.value.policy}"
+    tDn = "uni/fabric/funcprof/lenodepgrp-${each.value.policy_group}"
   }
 }
 
