@@ -25,7 +25,7 @@ resource "aci_rest" "fabricLeafP" {
 
 resource "aci_rest" "fabricLeafS" {
   for_each   = { for selector in var.selectors : selector.name => selector }
-  dn         = "${aci_rest.fabricLeafP.id}/leaves-${each.value.name}-typ-range"
+  dn         = "${aci_rest.fabricLeafP.dn}/leaves-${each.value.name}-typ-range"
   class_name = "fabricLeafS"
   content = {
     name = each.value.name
@@ -35,7 +35,7 @@ resource "aci_rest" "fabricLeafS" {
 
 resource "aci_rest" "fabricRsLeNodePGrp" {
   for_each   = { for selector in var.selectors : selector.name => selector if selector.policy_group != null }
-  dn         = "${aci_rest.fabricLeafS[each.value.name].id}/rsleNodePGrp"
+  dn         = "${aci_rest.fabricLeafS[each.value.name].dn}/rsleNodePGrp"
   class_name = "fabricRsLeNodePGrp"
   content = {
     tDn = "uni/fabric/funcprof/lenodepgrp-${each.value.policy_group}"
@@ -44,7 +44,7 @@ resource "aci_rest" "fabricRsLeNodePGrp" {
 
 resource "aci_rest" "fabricNodeBlk" {
   for_each   = { for item in local.node_blocks : item.key => item.value }
-  dn         = "${aci_rest.fabricLeafS[each.value.selector].id}/nodeblk-${each.value.name}"
+  dn         = "${aci_rest.fabricLeafS[each.value.selector].dn}/nodeblk-${each.value.name}"
   class_name = "fabricNodeBlk"
   content = {
     name  = each.value.name
@@ -55,7 +55,7 @@ resource "aci_rest" "fabricNodeBlk" {
 
 resource "aci_rest" "fabricRsLePortP" {
   for_each   = toset(local.leaf_interface_profiles)
-  dn         = "${aci_rest.fabricLeafP.id}/rslePortP-[${each.value}]"
+  dn         = "${aci_rest.fabricLeafP.dn}/rslePortP-[${each.value}]"
   class_name = "fabricRsLePortP"
   content = {
     tDn = each.value
