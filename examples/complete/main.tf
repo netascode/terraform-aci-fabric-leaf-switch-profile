@@ -1,6 +1,6 @@
 module "aci_fabric_leaf_switch_profile" {
   source  = "netascode/fabric-leaf-switch-profile/aci"
-  version = ">= 0.0.2"
+  version = ">= 0.1.0"
 
   name               = "LEAF101"
   interface_profiles = ["PROF1"]

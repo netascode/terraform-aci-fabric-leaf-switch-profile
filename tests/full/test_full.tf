@@ -5,8 +5,8 @@ terraform {
     }
 
     aci = {
-      source  = "netascode/aci"
-      version = ">=0.2.0"
+      source  = "CiscoDevNet/aci"
+      version = ">=2.0.0"
     }
   }
 }
@@ -27,7 +27,7 @@ module "main" {
   }]
 }
 
-data "aci_rest" "fabricLeafP" {
+data "aci_rest_managed" "fabricLeafP" {
   dn = "uni/fabric/leprof-${module.main.name}"
 
   depends_on = [module.main]
@@ -38,13 +38,13 @@ resource "test_assertions" "fabricLeafP" {
 
   equal "name" {
     description = "name"
-    got         = data.aci_rest.fabricLeafP.content.name
+    got         = data.aci_rest_managed.fabricLeafP.content.name
     want        = module.main.name
   }
 }
 
-data "aci_rest" "fabricLeafS" {
-  dn = "${data.aci_rest.fabricLeafP.id}/leaves-SEL1-typ-range"
+data "aci_rest_managed" "fabricLeafS" {
+  dn = "${data.aci_rest_managed.fabricLeafP.id}/leaves-SEL1-typ-range"
 
   depends_on = [module.main]
 }
@@ -54,13 +54,13 @@ resource "test_assertions" "fabricLeafS" {
 
   equal "name" {
     description = "name"
-    got         = data.aci_rest.fabricLeafS.content.name
+    got         = data.aci_rest_managed.fabricLeafS.content.name
     want        = "SEL1"
   }
 }
 
-data "aci_rest" "fabricRsLeNodePGrp" {
-  dn = "${data.aci_rest.fabricLeafS.id}/rsleNodePGrp"
+data "aci_rest_managed" "fabricRsLeNodePGrp" {
+  dn = "${data.aci_rest_managed.fabricLeafS.id}/rsleNodePGrp"
 
   depends_on = [module.main]
 }
@@ -70,13 +70,13 @@ resource "test_assertions" "fabricRsLeNodePGrp" {
 
   equal "tDn" {
     description = "tDn"
-    got         = data.aci_rest.fabricRsLeNodePGrp.content.tDn
+    got         = data.aci_rest_managed.fabricRsLeNodePGrp.content.tDn
     want        = "uni/fabric/funcprof/lenodepgrp-POL1"
   }
 }
 
-data "aci_rest" "fabricNodeBlk" {
-  dn = "${data.aci_rest.fabricLeafS.id}/nodeblk-BLOCK1"
+data "aci_rest_managed" "fabricNodeBlk" {
+  dn = "${data.aci_rest_managed.fabricLeafS.id}/nodeblk-BLOCK1"
 
   depends_on = [module.main]
 }
@@ -86,25 +86,25 @@ resource "test_assertions" "fabricNodeBlk" {
 
   equal "name" {
     description = "name"
-    got         = data.aci_rest.fabricNodeBlk.content.name
+    got         = data.aci_rest_managed.fabricNodeBlk.content.name
     want        = "BLOCK1"
   }
 
   equal "from_" {
     description = "from_"
-    got         = data.aci_rest.fabricNodeBlk.content.from_
+    got         = data.aci_rest_managed.fabricNodeBlk.content.from_
     want        = "101"
   }
 
   equal "to_" {
     description = "to_"
-    got         = data.aci_rest.fabricNodeBlk.content.to_
+    got         = data.aci_rest_managed.fabricNodeBlk.content.to_
     want        = "101"
   }
 }
 
-data "aci_rest" "fabricRsLePortP" {
-  dn = "${data.aci_rest.fabricLeafP.id}/rslePortP-[uni/fabric/leportp-PROF1]"
+data "aci_rest_managed" "fabricRsLePortP" {
+  dn = "${data.aci_rest_managed.fabricLeafP.id}/rslePortP-[uni/fabric/leportp-PROF1]"
 
   depends_on = [module.main]
 }
@@ -114,7 +114,7 @@ resource "test_assertions" "fabricRsLePortP" {
 
   equal "tDn" {
     description = "tDn"
-    got         = data.aci_rest.fabricRsLePortP.content.tDn
+    got         = data.aci_rest_managed.fabricRsLePortP.content.tDn
     want        = "uni/fabric/leportp-PROF1"
   }
 }

@@ -5,8 +5,8 @@ terraform {
     }
 
     aci = {
-      source  = "netascode/aci"
-      version = ">=0.2.0"
+      source  = "CiscoDevNet/aci"
+      version = ">=2.0.0"
     }
   }
 }
@@ -17,7 +17,7 @@ module "main" {
   name = "LEAF101"
 }
 
-data "aci_rest" "fabricLeafP" {
+data "aci_rest_managed" "fabricLeafP" {
   dn = "uni/fabric/leprof-${module.main.name}"
 
   depends_on = [module.main]
@@ -28,7 +28,7 @@ resource "test_assertions" "fabricLeafP" {
 
   equal "name" {
     description = "name"
-    got         = data.aci_rest.fabricLeafP.content.name
+    got         = data.aci_rest_managed.fabricLeafP.content.name
     want        = module.main.name
   }
 }
